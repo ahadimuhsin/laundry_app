@@ -17,7 +17,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password', 'api_token',
-        'photo', ''
+        'photo', 'role'
     ];
 
     /**
@@ -46,7 +46,7 @@ class User extends Authenticatable
 
     //local scope
     //mengembalikan user yang rolenya adalah kurir
-    public function scoupeCourier($query)
+    public function scopeCourier($query)
     {
         return $query->where('role', 3);
     }

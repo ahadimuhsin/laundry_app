@@ -3,7 +3,7 @@
         <div class="form-group" :class="{'has-error' : errors.code}">
             <label for="code">Kode Outlet</label>
             <input type="text" id="code" name="code" class="form-control" v-model="outlet.code"
-            :readonly="$route.name === 'outlets.edit'   ">
+            :readonly="$route.name === 'outlets.edit'">
             <p class="text-danger" v-if="errors.code">{{errors.code[0]}}</p>
         </div>
         <div class="form-group" :class="{'has-error' : errors.name}">

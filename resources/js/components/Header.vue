@@ -14,6 +14,7 @@
                     <ul class="nav navbar-nav">
                         <li><router-link to="/">Home<span class="sr-only">(current)</span></router-link></li>
                         <li><router-link :to="{name: 'outlets.data'}">Outlet</router-link></li>
+                        <li><router-link :to="{name: 'couriers.data'}">Courier</router-link></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<span class="caret"></span> </a>
                             <ul class="dropdown-menu" role="menu">
@@ -35,82 +36,6 @@
                 </div>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-<!--                        <li class="dropdown messages-menu">-->
-<!--                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">-->
-<!--                                <i class="fa fa-envelope-o"></i>-->
-<!--                                <span class="label label-success">4</span>-->
-<!--                            </a>-->
-<!--                            <ul class="dropdown-menu">-->
-<!--                                <li class="header">Punya 4 pesan nih-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    <ul class="menu">-->
-<!--                                        <li>-->
-<!--                                            <a href="#">-->
-<!--                                                <div class="pull-left">-->
-<!--                                                    <img src="https://via.placeholder.com/160"-->
-<!--                                                         class="img-circle" alt="user-image">-->
-<!--                                                </div>-->
-<!--                                                <h4>-->
-<!--                                                    Support Team-->
-<!--                                                    <smal><i class="fa fa-clock-o"></i> 5 mins </smal>-->
-<!--                                                </h4>-->
-<!--                                                <p>Gak jelas</p>-->
-<!--                                            </a>-->
-<!--                                        </li>-->
-<!--                                    </ul>-->
-<!--                                </li>-->
-<!--                                <li class="footer"><a href="#">Lihat Semua Pesan</a> </li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
-<!--                        <li class="dropdown notifications-menu">-->
-<!--                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">-->
-<!--                                <i class="fa fa-bell-o"></i>-->
-<!--                                <span class="label label-warning">10</span>-->
-<!--                            </a>-->
-<!--                            <ul class="dropdown-menu">-->
-<!--                                <li class="header">Notifikasi</li>-->
-<!--                                <li>-->
-<!--                                    <ul class="menu">-->
-<!--                                        <li>-->
-<!--                                            <a href="#">-->
-<!--                                                <i class="fa fa-users text-aqua"></i>5 orang join-->
-<!--                                            </a>-->
-<!--                                        </li>-->
-<!--                                    </ul>-->
-<!--                                </li>-->
-<!--                                <li class="footer"><a href="#">Lihat Semua</a> </li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
-<!--                        <li class="dropdown tasks-menu">-->
-<!--                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">-->
-<!--                                <i class="fa fa-flag-o"></i>-->
-<!--                                <span class="label label-danger">9</span>-->
-<!--                            </a>-->
-<!--                            <ul class="dropdown-menu">-->
-<!--                                <li class="header">You have 9 tasks</li>-->
-<!--                                <li>-->
-<!--                                    <ul class="menu">-->
-<!--                                        <li>-->
-<!--                                            <a href="#">-->
-<!--                                                <h3>-->
-<!--                                                    Design some buttons-->
-<!--                                                    <small class="pull-right">20%</small>-->
-<!--                                                </h3>-->
-<!--                                                <div class="progress xs">-->
-<!--                                                    <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">-->
-<!--                                                        <span class="sr-only">20% Complete</span>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </a>-->
-<!--                                        </li>-->
-<!--                                    </ul>-->
-<!--                                </li>-->
-<!--                                <li class="footer">-->
-<!--                                    <a href="#">View all tasks</a>-->
-<!--                                </li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="https://via.placeholder.com/160" class="user-image" alt="User Image">
