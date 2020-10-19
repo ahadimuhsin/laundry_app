@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import auth from './stores/auth.js'
 import outlet from './stores/outlet.js'
 import courier from './stores/courier.js'
+import product from "./stores/product.js";
 
 Vue.use(Vuex)
 
@@ -12,7 +13,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     //semua modul yang dibuat ditempatkan di dalam bagian ini
     modules: {
-        auth, outlet, courier
+        auth, outlet, courier, product
     },
     //state sama dengan properti data dari component hanya saja dapat digunakan
     //secara global
