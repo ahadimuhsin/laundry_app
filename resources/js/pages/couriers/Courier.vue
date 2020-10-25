@@ -13,8 +13,7 @@
 
             <div class="panel-body">
                 <!-- Menampilkan data list kurir dalam bentuk tabel -->
-                <b-table striped hover bordered :items="couriers.data"
-                :fields="fields" show-empty>
+                <b-table striped hover bordered :items="couriers.data" :fields="fields" show-empty>
                     <!-- Menggunakan custom template karena akan menampilkan gambar -->
                     <template v-slot:cell(photo)="row">
                         <img :src="'/storage/couriers/' + row.item.photo" :width="80" :height="50" :alt="row.item.name">

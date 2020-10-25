@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <b-table striped hover bordered :items="products.data" :fields="fileds"
+                <b-table striped hover bordered :items="products.data" :fields="fields"
                 show-empty>
                     <template v-slot:cell(laundry_type)="row">
                         {{row.item.type.name}}
@@ -66,7 +66,7 @@ export default {
                 {key: 'laundry_type', label: 'Jenis Jasa'},
                 {key: 'price', label: 'Harga'},
                 {key: 'user_id', label: 'Admin'},
-                {key: 'actions', label: 'Akis'}
+                {key: 'actions', label: 'Aksi'}
             ],
 
             //variabel untuk form search
@@ -85,7 +85,7 @@ export default {
             },
             set(val){
                 //set state page ketika value berubah
-                this.$store.commit('products/SET_PAGE', val)
+                this.$store.commit('product/SET_PAGE', val)
             }
         }
     },

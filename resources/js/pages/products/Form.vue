@@ -18,7 +18,7 @@
 
         <div class="row">
             <div class="col-md-6">
-<!--                Ketika ombol Tambah Baru Ditekan-->
+<!--                Ketika tombol Tambah Baru Ditekan-->
                 <div class="form-group" :class="{'has-error' : errors.laundry_type}">
                     <label for="">Jenis Jasa <sup><a @click="showForm = true"
                                                      href="javascript:void(0)" v-if="!showForm">
@@ -98,7 +98,7 @@ export default {
     },
     methods: {
         //meload semua fungsi di module product
-        ...mapActions('product', ['getLaundryType', 'addLaundryType', 'addProductLaundry', 'editProduct', 'updateCourier']),
+        ...mapActions('product', ['getLaundryType', 'addLaundryType', 'addProductLaundry', 'editProduct', 'updateProduct']),
         //funsgi yang akan berjalan ketika tombol save dari add jenis laundry ditekan
         addNewLaundryType()
         {
@@ -130,7 +130,7 @@ export default {
             else if(this.$route.name == 'products.edit'){
                 Object.assign(this.product, {id: this.$route.params.id})
 
-                this.updateCourier(this.product).then(() => {
+                this.updateProduct(this.product).then(() => {
                     //kosongkan variabel
                     this.product= {
                         name: '',
