@@ -8,9 +8,11 @@ use App\User;
 use App\Http\Resources\UserCollection;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -53,7 +55,7 @@ class UserController extends Controller
             }
 
             //simpan data kurir ke database
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -62,6 +64,9 @@ class UserController extends Controller
                 'outlet_id' => $request->outlet_id,
                 'role' => 3
             ]);
+            //menambahkan role courier ke user yang sudah disimpan
+            $user->assignRole('courier');
+            
             //jika berhasil semua, data akan disimpan ke dalam database
             DB::commit();
             return response()->json([
@@ -148,5 +153,33 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['status' => 'success'],200);
+    }
+
+    //mengambil seluruh data user yang bukan kurir
+    public function userLists(){
+        $user = User::where('role', '!=', 3)->get();
+
+        return new UserCollection($user);
+    }
+
+    //ambil data user yang login
+    public function getUserLogin()
+    {
+        $user = request()->user(); //ambil data user yang sedang login
+        $permissions = [];
+        //untuk tiap permission
+        foreach(Permission::all() as $permission){
+            //jika user yang sedang login punya permission terkait
+            if(request()->user()->can($permission->name)){
+                //permission tersebut ditambahkan
+                $permissions[] = $permission->name;
+            }
+        }
+
+        $user['permission'] = $permissions; //permission yang dimiliki dimasukkan ke dalam data user
+        return response()->json([
+            'status' => 'success',
+            'data' => $user
+        ]);
     }
 }

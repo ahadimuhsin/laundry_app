@@ -73,6 +73,7 @@ export default {
     },
     methods: {
         ...mapActions('auth', ['submit']), //mengisiasi funsgi submit dari Vuex
+        ...mapActions('user', ['getUserLogin']), //menjalankan method ambil data user login
         ...mapMutations(['CLEAR_ERRORS']),
 
         //ketika tombol login ditekan, akan jalan postLogin
@@ -89,6 +90,9 @@ export default {
                 }
             })
         }
+    },
+    destroyed(){
+        this.getUserLogin()
     }
 }
 </script>

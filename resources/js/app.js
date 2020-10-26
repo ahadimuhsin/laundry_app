@@ -9,9 +9,15 @@ import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueSweetalert2 from "vue-sweetalert2"
 
+//Permission
+import Permissions from './mixins/permission.js'
+
 Vue.use(VueSweetalert2)
 Vue.use(BootstrapVue)
 
+Vue.mixin(Permissions)
+
+import {mapActions, mapGetters} from 'vuex'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 new Vue({
     el: '#app',
@@ -19,5 +25,16 @@ new Vue({
     store,
     components: {
         App
+    },
+    computed: {
+        ...mapGetters(['isAuth'])
+    },
+    methods: {
+        ...mapActions('user', ['getUserLogin'])
+    },
+    created(){
+        if(this.isAuth){
+            this.getUserLogin() //request data yang sedang login
+        }
     }
 })
