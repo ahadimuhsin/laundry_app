@@ -51,4 +51,10 @@ class User extends Authenticatable
     {
         return $query->where('role', 3);
     }
+
+    //membuat accesor, supaya nama user dimulai dengan huruf kapital
+    public function getNameAttribute($value)
+    {
+        return ucfirst($value);
+    }
 }
