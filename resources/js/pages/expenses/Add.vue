@@ -3,7 +3,7 @@
         <div class="panel">
 
             <div class="panel-heading">
-                <h3 class="panel-title">Tambah Pengeluaran Baru</h3>
+                <h3 class="panel-title">Tambah Biaya Baru</h3>
             </div>
 
             <div class="panel-body">

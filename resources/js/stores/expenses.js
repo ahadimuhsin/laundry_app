@@ -73,6 +73,38 @@ const actions = {
                 resolve(response.data)
             })
         })
+    },
+
+    //terima expense
+    acceptExpenses({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            //kirim permintaan ke server untuk mengubah value menjadi accept
+            $axios.post(`expenses/accept`, { id: payload })
+                .then((response) => {
+                resolve(response.data)
+            })
+        })
+    },
+
+    //tolak expense
+    cancelExpenses({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            //kirim permintaan ke server untuk mengubah value menjadi tolak
+            $axios.post('/expenses/cancel', payload)
+                .then((response) => {
+                resolve(response.data)
+            })
+        })
+    },
+
+    removeExpenses({ dispatch }, payload) {
+        return new Promise((resolve, reject) => {
+            //kirim permintaan untuk menghapus berdasarkan ID
+            $axios.delete(`expenses/${payload}`)
+                .then((response) => {
+                dispatch('getExpenses').then(() => resolve(response.data))
+            })
+        })
     }
 }
 

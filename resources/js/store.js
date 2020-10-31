@@ -8,14 +8,14 @@ import courier from './stores/courier.js'
 import product from "./stores/product.js"
 import user from './stores/user.js'
 import expense from './stores/expenses.js'
-
+import notification from './stores/notification.js'
 Vue.use(Vuex)
 
 //define root store vuex
 const store = new Vuex.Store({
     //semua modul yang dibuat ditempatkan di dalam bagian ini
     modules: {
-        auth, outlet, courier, product, user, expense
+        auth, outlet, courier, product, user, expense, notification
     },
     //state sama dengan properti data dari component hanya saja dapat digunakan
     //secara global

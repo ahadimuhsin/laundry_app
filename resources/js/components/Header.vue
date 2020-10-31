@@ -32,6 +32,37 @@
                 </div>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+                        <li class="dropdown messages-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bell-o"></i>
+
+                                <!-- Menghitung jumlah data notifikasi yang ada -->
+                                <span class="label label-success">{{notifications.length}}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">Kamu punya {{notifications.length}} pesan</li>
+                                <li>
+                                    <ul class="menu" v-if="notifications.length > 0">
+                                        <!-- Looping data notifikasi -->
+                                        <li v-for="(row, index) in notifications" :key="index">
+                                            <a href="javascript:void(0)" @click="readNotif(now)">
+                                                <div class="pull-left">
+                                                    <img src="https://via.placeholder.com/160" class="img-circle" alt="User Image">
+                                                </div>
+                                                <h4>
+                                                    <!-- Nama pengirim notifikasi -->
+                                                    {{ row.data.sender_name }}
+
+                                                    <small><i class="fa fa-clock-o"></i> {{row.created_at | formatDate}}</small>
+                                                </h4>
+                                                <!-- jenis permintaan notifikasi -->
+                                                <p>{{row.data.expenses.description.substr(0,30)}}</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="https://via.placeholder.com/160" class="user-image" alt="User Image">
@@ -73,15 +104,40 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapActions} from 'vuex'
+import moment from 'moment'
 export default {
     name: "Header",
     computed: {
         ...mapState('user', {
             authenticated: state => state.authenticated //meload state authenticated
+        }),
+
+        //state notification
+        ...mapState('notification', {
+            notifications: state => state.notifications
         })
     },
+
+    filters: {
+        //mengubah format tanggan menjadi time ago
+        formatDate(val)
+        {
+            return moment(new Date(val)).fromNow()
+        }
+    },
+
     methods: {
+        //import actions dari notifications
+        ...mapActions('notification', ['readNotification']),
+
+        //ketika tombol notifikasi diklik
+        readNotif(now){
+            //mengirim permintaan ke server bahwa notifikasi telah dibaca
+            //kemudian selanjutnya redirect ke halalamn view expenses
+            this.readNotifications({id: row.id})
+            .then(() => this.$router.push({name: 'expenses.view', params: {id: row.data.expenses.id}}))
+        },
         //ketika tombol logout ditekan
         logout(){
             return new Promise((resolve, reject) => {

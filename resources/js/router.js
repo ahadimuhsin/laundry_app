@@ -30,6 +30,8 @@ import SetPermission from './pages/setting/roles/SetPermission.vue'
 import IndexExpenses from './pages/expenses/Index.vue'
 import DataExpenses from './pages/expenses/Expenses.vue'
 import CreateExpenses from './pages/expenses/Add.vue'
+import ViewExpenses from './pages/expenses/View.vue'
+import EditExpenses from './pages/expenses/Edit.vue'
 
 Vue.use(Router)
 
@@ -152,7 +154,19 @@ const router = new Router({
                     path: 'add',
                     name: 'expenses.create',
                     component: CreateExpenses,
-                    meta: {title: 'Tambah Pengeluaran Baru'}
+                    meta: {title: 'Tambah Biaya Baru'}
+                },
+                {
+                    path: 'view/:id',
+                    name: 'expense.view',
+                    component: ViewExpenses,
+                    meta: {title: 'Liat Biaya'}
+                }.
+                {
+                    path: 'edit/:id',
+                    name: 'expenses.edit',
+                    component: EditExpenses,
+                    meta: {title: 'Ubah Biaya'}
                 }
             ]
         }

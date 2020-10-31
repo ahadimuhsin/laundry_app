@@ -66,4 +66,69 @@ class ExpensesController extends Controller
         return response()->json(['status' => 'success']);
     }
 
+
+    public function accept (Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required|exists:expenses,id'
+        ]);
+        $expenses = Expense::with(['user'])->findOrFail($request->id);
+        $expenses->update(['status' => 1]); //mengubah nilai status menjadi 1 (diterima)
+        //mengirim notifikasi
+        Notification::send($expenses->user, new ExpensesNotification($expenses, $expenses->user));
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+    public function cancelRequest(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required|exists:expenses,id',
+            'reason' => 'required|string'
+        ]);
+        $expenses = Expense::with(['user'])->findOrFail($request->id);
+        $expenses->update(['status' => 2, 'reason' => $request->reason]); //mengubah nilai status menjadi 1 (diterima)
+        //mengirim notifikasi
+        Notification::send($expenses->user, new ExpensesNotification($expenses, $expenses->user));
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+    public function edit($id)
+    {
+        $expenses = Expense::with('user')->findOrFail($id);
+        return response()->json([
+            'status' => 'success',
+            'data' => $expenses
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'description' => 'required|string|max:150',
+            'price' => 'required|integer',
+            'note' => 'nullable|string'
+        ]);
+
+        $expenses = Expense::findOrFail($id);
+        $expenses->update($request->except('id'));
+
+        return response()->json([
+            'status' => 'succes'
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $expenses = Expense::findOrFail($id);
+        $expenses->delete();
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
 }

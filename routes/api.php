@@ -37,4 +37,12 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     Route::get('user-authenticated', 'API\UserController@getUserLogin')->name('user.authenticated');
     Route::get('user-lists', 'API\UserController@userLists')->name('user.index');
+
+    //notifikasi
+    Route::resource('notification', 'API\NotificationController')->except(['create', 'destroy']);
+
+    //expenses
+    Route::resource('expenses', 'API\ExpensesController')->except(['create', 'show']);
+    Route::post('expenses/accept', 'API\ExpensesController@accept')->name('expenses.accept');
+    Route::post('expenses/cancel', 'API\ExpensesController@cancelRequest')->name('expenses.cancel');
 });
