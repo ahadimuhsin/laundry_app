@@ -22,11 +22,15 @@ Route::post('/login', 'Auth\LoginController@login');
 
 Route::group(['middleware' => 'auth:api'], function(){
     Route::resource('outlets', 'API\OutletController')->except(['show']);
-    Route::resource('couriers', 'API\UserController')->except(['create', 'show', 'update']);
-    Route::post('couriers/{id}', 'API\UserController@update')->name('couriers.update');
-    Route::resource('product', 'API\ProductController')->except(['create', 'show']);
+
+    //product
     Route::get('product/laundry-type', 'API\ProductController@getLaundryType');
     Route::post('product/laundry-type', 'API\ProductController@storeLaundryType');
+    Route::resource('product', 'API\ProductController')->except(['create', 'show']);
+
+    //couriers
+    Route::post('couriers/{id}', 'API\UserController@update')->name('couriers.update');
+    Route::resource('couriers', 'API\UserController')->except(['create', 'show', 'update']);
 
     //roles
     Route::get('roles', 'API\RolePermissionController@getAllRole')->name('roles');
@@ -35,6 +39,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('set-role-permission', 'API\RolePermissionController@setRolePermission')->name('set_role_permission');
     Route::post('set-role-user', 'API\RolePermissionController@setRoleUser')->name('set-role-user');
 
+    //user
     Route::get('user-authenticated', 'API\UserController@getUserLogin')->name('user.authenticated');
     Route::get('user-lists', 'API\UserController@userLists')->name('user.index');
 
@@ -42,7 +47,10 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::resource('notification', 'API\NotificationController')->except(['create', 'destroy']);
 
     //expenses
-    Route::resource('expenses', 'API\ExpensesController')->except(['create', 'show']);
     Route::post('expenses/accept', 'API\ExpensesController@accept')->name('expenses.accept');
     Route::post('expenses/cancel', 'API\ExpensesController@cancelRequest')->name('expenses.cancel');
+    Route::resource('expenses', 'API\ExpensesController')->except(['create', 'show']);
+
+    //Customers
+    Route::resource('customer', 'API\CustomerController')->except(['create', 'show']);
 });

@@ -33,6 +33,10 @@ import CreateExpenses from './pages/expenses/Add.vue'
 import ViewExpenses from './pages/expenses/View.vue'
 import EditExpenses from './pages/expenses/Edit.vue'
 
+//Customers
+import IndexCustomer from './pages/customers/Index.vue'
+import DataCustomer from './pages/customers/Customer.vue'
+
 Vue.use(Router)
 
 //Define Route
@@ -169,8 +173,22 @@ const router = new Router({
                     meta: {title: 'Ubah Biaya'}
                 }
             ]
-        }
+        },
+        {
+            //halaman customers
+            path: '/customers',
+            component: IndexCustomer,
+            meta: {requiresAuth: true},
+            children: [
+                {
+                    path: '',
+                    name: 'customers.data',
+                    component: DataCustomer,
+                    meta: {title: 'Manage Customers'}
+                }
+            ]
 
+        },
     ]
 });
 
