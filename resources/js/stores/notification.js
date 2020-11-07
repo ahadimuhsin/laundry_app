@@ -27,7 +27,7 @@ const actions = {
     readNotification({ dispatch }, payload) {
         return new Promise((resolve, reject) => {
             //untuk update data notifikasi bahwa notif tersebut sudah dibaca
-            $axios.post('/notication', payload)
+            $axios.post('/notification', payload)
                 .then((response) => {
                 //ambil data notifikasi terbaru
                     dispatch('getNotifications')

@@ -24,11 +24,12 @@
                     <dt>User/Kurir</dt>
                     <dd>- {{user.name}}</dd>
 
+                    <hr>
                     <dt>Status</dt>
                     <dd>
                         <span class="label label-success" v-if="status == 1">Diterima</span>
                         <span class="label label-warning" v-else-if="status == 0">Diproses</span>
-                        <span class="label label-default" v-else>Ditolak</span>
+                        <span class="label label-danger" v-else>Ditolak</span>
                     </dd>
 
                     <hr>
@@ -69,7 +70,7 @@ export default {
     created(){
         //ketika component diload, kita akan mengambil satu data yang akan ditampilkan
         //berdasarkan ID
-        this.editExpense(this.$route.params.id).then((res) => {
+        this.editExpenses(this.$route.params.id).then((res) => {
             let row = res.data
             //assign semua data ke dalam variabel yang telah didefinisikan
             this.description = row.description

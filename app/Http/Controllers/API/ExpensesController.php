@@ -61,7 +61,7 @@ class ExpensesController extends Controller
 
         $users = User::whereIn('role', [0,2])->get();
 
-        Notification::send($users, new ExpensesNotification($expenses, $users));
+        Notification::send($users, new ExpensesNotification($expenses, $user));
 
         return response()->json(['status' => 'success']);
     }

@@ -140,7 +140,7 @@ const router = new Router({
             ],
         },
         {
-            path: 'expenses',
+            path: '/expenses',
             component: IndexExpenses,
             meta: { requiresAuth: true },
             children: [
@@ -158,10 +158,10 @@ const router = new Router({
                 },
                 {
                     path: 'view/:id',
-                    name: 'expense.view',
+                    name: 'expenses.view',
                     component: ViewExpenses,
                     meta: {title: 'Liat Biaya'}
-                }.
+                },
                 {
                     path: 'edit/:id',
                     name: 'expenses.edit',

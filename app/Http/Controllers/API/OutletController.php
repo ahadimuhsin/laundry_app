@@ -28,10 +28,13 @@ class OutletController extends Controller
             'code' => 'required|unique:outlets,code',
             'name' => 'required|string|max:100',
             'address' => 'required|string',
-            'phone' => 'required|max:13'
+            'phone' => 'required|max:13',
+            'status' => 'nullable|integer'
         ]);
 
+
         Outlet::create($request->all());
+
         return response()->json(['status' => 'success'], 200);
     }
 
@@ -52,14 +55,30 @@ class OutletController extends Controller
 //            'code' => 'required|unique:outlets,code',
             'name' => 'required|string|max:100',
             'address' => 'required|string',
-            'phone' => 'required|max:13'
+            'phone' => 'required|max:13',
+            'status' =>'nullable|boolean'
         ]);
-
+        // echo($request->status);
         $outlet = Outlet::where('code', $id)->first();
-        $outlet->update($request->except('code'));
 
+        if($request->status){
+            $status = 1;
+        }
+        else{
+            $status = 0;
+        }
+
+        $outlet->update([
+            'name' => $request->name,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'status' => $status
+        ]);
+        // echo ($status);
+        // echo($outlet);
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
+            'data' => $outlet
         ], 200);
     }
 

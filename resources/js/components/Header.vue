@@ -30,7 +30,8 @@
                         </div>
                     </form>
                 </div>
-                <div class="navbar-custom-menu">
+                <!-- Hanya muncul apabila yang login adalah superadmin atau finance -->
+                <div class="navbar-custom-menu" v-if="authenticated.role == 0 || authenticared.role == 2">
                     <ul class="nav navbar-nav">
                         <li class="dropdown messages-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -45,7 +46,7 @@
                                     <ul class="menu" v-if="notifications.length > 0">
                                         <!-- Looping data notifikasi -->
                                         <li v-for="(row, index) in notifications" :key="index">
-                                            <a href="javascript:void(0)" @click="readNotif(now)">
+                                            <a href="javascript:void(0)" @click="readNotif(row)">
                                                 <div class="pull-left">
                                                     <img src="https://via.placeholder.com/160" class="img-circle" alt="User Image">
                                                 </div>
@@ -132,10 +133,10 @@ export default {
         ...mapActions('notification', ['readNotification']),
 
         //ketika tombol notifikasi diklik
-        readNotif(now){
+        readNotif(row){
             //mengirim permintaan ke server bahwa notifikasi telah dibaca
             //kemudian selanjutnya redirect ke halalamn view expenses
-            this.readNotifications({id: row.id})
+            this.readNotification({id: row.id})
             .then(() => this.$router.push({name: 'expenses.view', params: {id: row.data.expenses.id}}))
         },
         //ketika tombol logout ditekan

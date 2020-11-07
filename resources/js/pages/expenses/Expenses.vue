@@ -16,7 +16,7 @@
                     <template v-slot:cell(status)="row">
                         <span class="label label-success" v-if="row.item.status ==1">Diterima</span>
                         <span class="label label-warning" v-else-if="row.item.status ==0">Diproses</span>
-                        <span class="label label-default" v-else>Ditolak</span>
+                        <span class="label label-danger" v-else>Ditolak</span>
                     </template>
                     <template v-slot:cell(user)="row">
                         {{ row.item.user.name }}
@@ -27,6 +27,7 @@
                     <template v-slot:cell(actions)="row">
                         <router-link :to="{name: 'expenses.edit', params: {id: row.item.id}}" class="btn btn-warning btn-sm" v-if="row.item.status == 0"><i class="fa fa-pencil"></i> </router-link>
                         <router-link :to="{name: 'expenses.view', params: {id: row.item.id}}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></router-link>
+                        <button class="btn btn-danger btn-sm" @click="deleteExpenses(row.item.id)" v-if="row.item.status == 0"><i class="fa fa-trash"></i></button>
                     </template>
                 </b-table>
 
@@ -87,41 +88,42 @@ export default {
             set(val){
                 this.$store.commit('expenses/SET_PAGE', val)
             }
-        },
-
-        watch: {
-            //ketika terjadi perubahan valu state page
-            page(){
-                this.getExpenses()
-            },
-
-            //ketika terjadi perubhana variabel search
-            search(){
-                this.getExpenses(this.search)
-            }
-        },
-
-        methods: {
-            ...mapActions('expenses', ['getExpenses', 'removeExpenses']), //ambil method2 dari modul expenses yang akan digunakan
-
-            //alert ketika menghapus data
-            deleteExpenses(id){
-                this.$swal({
-                title: 'Yakin mau dihapus?',
-                text: 'Tindakan ini akan menghapus data secara permanent',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Lanjutkan!!"
-                }).then((result) => {
-                //jika disetujui, jalankan fungsi removeOutlet
-                    if(result.value){
-                    this.removeExpenses(id)
-                    }
-                })
-            }
         }
+    },
+
+    watch: {
+         //ketika terjadi perubahan valu state page
+        page(){
+            this.getExpenses()
+        },
+
+        //ketika terjadi perubhana variabel search
+        search(){
+            this.getExpenses(this.search)
+        }
+    },
+
+    methods: {
+        ...mapActions('expenses', ['getExpenses', 'removeExpenses']), //ambil method2 dari modul expenses yang akan digunakan
+
+         //alert ketika menghapus data
+        deleteExpenses(id){
+            this.$swal({
+            title: 'Yakin mau dihapus?',
+            text: 'Tindakan ini akan menghapus data secara permanent',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Lanjutkan!!"
+            }).then((result) => {
+             //jika disetujui, jalankan fungsi removeOutlet
+                if(result.value){
+                this.removeExpenses(id)
+                }
+            })
+        }
+
     }
 }
 </script>
