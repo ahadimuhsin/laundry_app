@@ -32,7 +32,7 @@
                     </form>
                 </div>
                 <!-- Hanya muncul apabila yang login adalah superadmin atau finance -->
-                <div class="navbar-custom-menu" v-if="authenticated.role == 0 || authenticared.role == 2">
+                <div class="navbar-custom-menu" v-if="authenticated.role == 0 || authenticated.role == 2">
                     <ul class="nav navbar-nav">
                         <li class="dropdown messages-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

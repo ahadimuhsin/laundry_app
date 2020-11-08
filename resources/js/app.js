@@ -12,9 +12,13 @@ import VueSweetalert2 from "vue-sweetalert2"
 //Permission
 import Permissions from './mixins/permission.js'
 
+//onlyInt
+import onlyInt from 'vue-input-only-number'
+
+
 Vue.use(VueSweetalert2)
 Vue.use(BootstrapVue)
-
+Vue.use(onlyInt)
 Vue.mixin(Permissions)
 
 import { mapActions, mapGetters, mapState } from 'vuex'

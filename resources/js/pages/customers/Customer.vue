@@ -25,10 +25,10 @@
                     <!-- Actions -->
                     <template v-slot:cell(actions)="row">
                         <router-link :to="{name: 'customers.edit', params: {id: row.item.id}}" class="btn btn-warning btn-sm">
-                            <i class="fa fa-pencil-alt"></i>
+                            <i class="fa fa-pencil"></i>
                         </router-link>
                         <button class="btn btn-danger btn-sm" @click="deleteCustomer(row.item.id)">
-                            <i class="fa fa-trash-alt"></i>
+                            <i class="fa fa-trash"></i>
                         </button>
                     </template>
                 </b-table>
@@ -43,7 +43,7 @@
 
                     <div class="col-md-6">
                         <div class="pull-right">
-                            <b-pagination v-model="page" :total-rows="customer.meta.total"
+                            <b-pagination v-model="page" :total-rows="customers.meta.total"
                             :per-page="customers.meta.per_page"
                             aria-controls="customers"
                             v-if="customers.data && customers.data.length > 0">
@@ -109,7 +109,7 @@ export default {
         //ketika tombol delete ditekan
         deleteCustomer(id){
             this.$swal({
-                title: 'Yakin mau dihapus?',
+            title: 'Yakin mau dihapus?',
             text: 'Tindakan ini akan menghapus data secara permanent',
             type: 'warning',
             showCancelButton: true,

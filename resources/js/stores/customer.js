@@ -1,3 +1,4 @@
+import { reject } from 'lodash'
 import $axios from '../api'
 
 const state = () => ({
@@ -46,8 +47,58 @@ const actions = {
             //request data customer
             $axios.get(`/customer?page=${state.page}&q=${search}`)
             .then((response) => {
-                commit('ASSIGN_DATA', resonse.data) // jika data diterima, simpan ke dalam mutations
+                commit('ASSIGN_DATA', response.data) // jika data diterima, simpan ke dalam mutations
                 resolve(response.data)
+            })
+        })
+    },
+
+    submitCustomer({dispatch, commit, state}){
+        return new Promise((resolve, reject) => {
+            //mengirim request ke backend
+            $axios.post(`/customer`, state.customer)
+            .then((response) => {
+                //apabila berhasil maka load data customer
+                dispatch('getCustomers').then(() => {
+                    resolve(response.data)
+                })
+            })
+            .catch((error) => {
+                //jika terjadi error validasi
+                if(error.response.status == 422){
+                    commit('SET_ERRORS', error.response.data.errors, {root: true})
+                }
+            })
+        })
+    },
+
+    //ambil data berdasarkan ID
+    editCustomer({commit}, payload){
+        return new Promise((resolve, reject) => {
+            $axios.get(`/customer/${payload}/edit`)
+            .then((response) => {
+                commit('ASSIGN_FORM', response.data.data)
+                resolve(response.data)
+            })
+        })
+    },
+    //updateCustomer
+    updateCustomer({state, commit}, payload){
+        return new Promise((resolve, reject) => {
+            $axios.put(`/customer/${payload}`, state.customer)
+            .then((response) => {
+                commit('CLEAR_FORM')
+                resolve(response.data)
+            })
+        })
+    },
+
+    //hapus customer
+    removeCustomer({dispatch}, payload){
+        return new Promise((resolve, reject) => {
+            $axios.delete(`/customer/${payload}`)
+            .then((response) => {
+                dispatch('getCustomers').then(() => resolve())
             })
         })
     }
