@@ -43,9 +43,9 @@ class CustomerController extends Controller
             $request->request->add(['courier_id' => $user->id]);
         }
 
-        Customer::create($request->all());
+        $customer = Customer::create($request->all());
 
-        return response()->json(['status' => 'success']);
+        return response()->json(['status' => 'success', 'data' => $customer]);
     }
 
     public function edit($id)

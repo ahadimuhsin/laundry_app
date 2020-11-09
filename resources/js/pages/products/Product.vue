@@ -19,6 +19,11 @@
                     <template v-slot:cell(user_id)="row">
                         {{row.item.user.name}}
                     </template>
+                    <!-- New Form -->
+                    <template v-slot:cell(service)="row">
+                        {{ row.item.service }} {{ row.item.service_type }}
+                    </template>
+
                     <template v-slot:cell(actions)="row">
                         <router-link :to="{name: 'products.edit', params: {id: row.item.id}}"
                                      class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i>
@@ -66,6 +71,7 @@ export default {
                 {key: 'laundry_type', label: 'Jenis Jasa'},
                 {key: 'price', label: 'Harga'},
                 {key: 'user_id', label: 'Admin'},
+                {key: 'service', label: 'Lama Pengerjaan'},
                 {key: 'actions', label: 'Aksi'}
             ],
 

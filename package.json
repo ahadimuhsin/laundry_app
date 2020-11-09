@@ -28,6 +28,7 @@
         "vue": "^2.6.12",
         "vue-input-only-number": "^1.1.0",
         "vue-router": "^3.4.6",
+        "vue-select": "^3.10.8",
         "vue-sweetalert2": "^3.0.8",
         "vuex": "^3.5.1"
     }

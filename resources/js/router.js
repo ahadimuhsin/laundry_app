@@ -39,6 +39,10 @@ import DataCustomer from './pages/customers/Customer.vue'
 import AddCustomer from './pages/customers/Add.vue'
 import EditCustomer from './pages/customers/Edit.vue'
 
+//Transaksi
+import IndexTransaction from './pages/transactions/Index.vue'
+import AddTransaction from './pages/transactions/Add.vue'
+
 Vue.use(Router)
 
 //Define Route
@@ -199,6 +203,21 @@ const router = new Router({
                     name: 'customers.edit',
                     component: EditCustomer,
                     meta: {title: 'Edit Customer'}
+                }
+            ]
+
+        },
+        {
+            //halaman transaksi
+            path: '/transactions',
+            component: IndexTransaction,
+            meta: {requiresAuth: true},
+            children: [
+                {
+                    path: 'create',
+                    name: 'transactions.add',
+                    component: AddTransaction,
+                    meta: {title: 'Buat Transaksi Baru'}
                 }
             ]
 
