@@ -7,11 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class LaundryPrice extends Model
 {
     //
-    protected $fillable =
-        [
-            'name', 'unit_type', 'laundry_type_id',
-            'price', 'user_id'
-        ];
+    protected $guarded = [];
 
     //relasi dengan type
     public function type()

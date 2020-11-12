@@ -13,10 +13,10 @@
                     label="name"
                     placeholder="Keyword..."
                     :filterable="false">
-                    <template slot="no-options">
+                    <template v-slot:no-options>
                         Masukkan Kata Kunci
                     </template>
-                    <template slot="option" slot-scope="option">
+                    <template v-slot:cell(option)="option">
                         {{ option.name }}
                     </template>
                 </v-select>
@@ -88,10 +88,10 @@
                                     label="name"
                                     placeholder="Keyword"
                                     :filterable="false">
-                                    <template slot="no-options">
+                                    <template v-slot:no-options>
                                         Masukkan Kata Kunci
                                     </template>
-                                    <template slot="option" slot-scope="option">
+                                    <template v-slot:cell(option)="option">
                                         {{ option.name }}
                                     </template>
                                 </v-select>
@@ -152,12 +152,6 @@ export default {
             customers: state => state.customers, //ambil state customers
             products: state => state.products //ambil state products
         }),
-        total(){
-            //menjumlahkan subtotal
-            return _.sumBy(this.transactions.detail, function(o){
-                return o.subtotal
-            })
-        },
         filterProduct(){
             return _.filter(this.transactions.detail, function(item){
                 return item.laundry_price == null

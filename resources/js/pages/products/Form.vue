@@ -68,7 +68,7 @@
                     <select class="form-control" v-model="product.service_type">
                         <option value="">Pilih</option>
                         <option value="Hari">Hari</option>
-                        <option value="Jam"></option>
+                        <option value="Jam">Jam</option>
                     </select>
                     <p class="text-danger" v-if="errors.service_type">{{errors.service_type[0]}}</p>
                 </div>

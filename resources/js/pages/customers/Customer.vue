@@ -74,7 +74,7 @@ export default {
                 {key: 'point', label: 'Poin'},
                 {key: 'deposit', label: 'Deposit'},
                 {key: 'courier_id', label: 'Invited By'},
-                {key: 'actions', label: 'Akis'}
+                {key: 'actions', label: 'Aksi'}
             ],
             search: ''
         }
