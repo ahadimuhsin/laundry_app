@@ -7,7 +7,7 @@ const state = () => ({
     outlet: {
         code: '',
         name: '',
-        status: false,
+        status: 0,
         address: '',
         phone: ''
     },

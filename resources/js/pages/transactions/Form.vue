@@ -117,6 +117,8 @@
         <div class="col-md-12" v-if="isSuccess">
             <div class="alert alert-success">
                 Transaksi Berhasil, Total Tagihan: Rp {{ total }}
+
+                <strong><router-link :to="{name: 'transactions.view', params:{id: transaction_id}}">Lihat Detail</router-link></strong>
             </div>
         </div>
     </div>
@@ -140,7 +142,8 @@ export default {
                 detail: [
                     {laundry_price: null, qty:1, price: 0, subtotal: 0}
                 ]
-            }
+            },
+            transaction_id: null
         }
     },
     computed: {
@@ -230,7 +233,10 @@ export default {
             if (filter.length > 0){
                 //mengirim permintaan ke server untuk mneyimpan data transaksi
                 this.createTransaction(this.transactions)
-                .then(() => this.isSuccess = true)
+                .then((res) =>{
+                this.transaction_id = res.data.id
+                this.isSuccess = true
+                })
             }
         },
         //mereset form

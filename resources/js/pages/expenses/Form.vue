@@ -54,7 +54,7 @@ export default {
         ...mapActions('expenses', ['submitExpenses', 'editExpenses', 'updateExpenses']),
         submit(){
             //ketika user menekan tombol Simpan, fungsi ini berjalan
-            
+
             //ketika halaman yg diakses adalah halaman edit, akan diteruskan ke fungsi update
             if (this.$route.name == 'expenses.edit'){
                 //ambil datanya dahulu
@@ -64,7 +64,7 @@ export default {
             }
             else {
                 //jika yang dibuka adalah halaman add
-                this.submitExpenses(this.expenses).then(() => this.$route.push({name: 'expenses.data'}))
+                this.submitExpenses(this.expenses).then(() => this.$router.push({name: 'expenses.data'}))
             }
         }
     },

@@ -3,6 +3,7 @@ import $axios from '../api'
 const state = () => ({
     customers: [],
     products: [],
+    transaction: [],
     page: 1
 })
 
@@ -11,7 +12,6 @@ const mutations = {
     ASSIGN_DATA(state, payload){
         state.customers = payload
     },
-
     //mengubah state product berdasarkan data yang diterima
     DATA_PRODUCT(state, payload){
         state.products = payload
@@ -19,7 +19,11 @@ const mutations = {
 
     SET_PAGE(state, payload){
         state.page = payload
-    }
+    },
+    //mutasi transaksi
+    ASSIGN_TRANSACTION(state, payload){
+        state.transaction = payload
+    },
 }
 
 const actions = {
@@ -60,6 +64,38 @@ const actions = {
             //mengirim permintaan ke server untuk membuat transaksi
             $axios.post(`/transaction`, payload)
             .then((response) => {
+                resolve(response.data)
+            })
+        })
+    },
+
+    // Mengambil data detail Transaksi
+    detailTransaction({commit}, payload){
+        return new Promise((resolve, reject) => {
+            $axios.get(`/transaction/${payload}/edit`)
+            .then((response) => {
+                //commit ke ASSIGN_TRANSACTION
+                commit('ASSIGN_TRANSACTION', response.data.data)
+                resolve(response.data)
+            })
+        })
+    },
+
+    // Mengirim data yang sudah diklik complete
+    completeItem({commit}, payload){
+        return new Promise((resolve, reject) => {
+            $axios.post(`/transaction/complete-item`, payload)
+            .then((response) => {
+                resolve(response.data)
+            })
+        })
+    },
+
+    //menghandle proses pembayaran
+    payment({commit}, payload){
+        return new Promise((resolve, reject) => {
+            $axios.post(`/transaction/payment`, payload)
+            .then((response) =>{
                 resolve(response.data)
             })
         })

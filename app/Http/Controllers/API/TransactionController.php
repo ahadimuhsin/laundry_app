@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Transaction;
+use Exception;
 use Illuminate\Support\Carbon;
+use App\Payment;
 
 class TransactionController extends Controller
 {
@@ -67,12 +69,82 @@ class TransactionController extends Controller
             //update informasi pada tabel transactions
             $transaction->update(['amount' => $amount]);
             DB::commit();
-            return response()->json(['status' => 'success']);
+            return response()->json(['status' => 'success', 'data' => $transaction]);
         }
         catch(\Exception $e){
             DB::rollback();
             return response()->json([
                 'status' => 'error',
+                'data' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function edit($id){
+        //mencari id transaksi terkait yang terhubung dengan
+        //customer, payment, detail, dan detail.product
+        $transaction = Transaction::with(['customer', 'payment', 'detail', 'detail.product'])->findOrFail($id);
+        return response()->json(['status' => 'success', 'data' => $transaction]);
+    }
+
+    public function completeItem(Request $request)
+    {
+        //validasi untuk memeriksa idnya ada atau tidak
+        $this->validate($request, [
+            'id' => 'required|exists:detail_transaction,id'
+        ]);
+
+        //load data detail transaksi berdasarkan ID
+        $transaction = DetailTransaction::with(['transaction.customer'])->findOrFail($request->id);
+
+        //update status detail transaksi menjadi 1
+        $transaction->update(['status' => 1]);
+
+        //update data customer terkait dengan menambahkan 1 point
+        $transaction->transaction->customer()->update(['point' => $transaction->transaction->customer->point + 1]);
+
+        return response()->json(['status'=>'success']);
+    }
+
+    public function makePayment(Request $request)
+    {
+        $this->validate($request, [
+            'transaction_id' => 'required|exists:transactions,id',
+            'amount' => 'required|integer'
+        ]);
+
+        DB::beginTransaction();
+        try{
+            //cari transaksi berdasarkan ID
+            $transaction = Transaction::findOrFail($request->transaction_id);
+
+            //set defaul kembalian = 0
+            $customer_change = 0;
+            if($request->customer_change){
+                //jika customer change bernilai true
+                $customer_change = $request->amount - $transaction->amount; //hitung berapa kembaliannya
+
+                //tambahkan ke deposit customer
+                $transaction->customer()->update(['deposit' => $transaction->customer->deposit + $customer_change]);
+            }
+
+            //simpan info pembayaran
+            Payment::create([
+                'transaction_id' => $transaction->id,
+                'amount' => $request->amount,
+                'customer_change' => $customer_change,
+                'type' => false
+            ]);
+            //update status transaski jadi 1, artinya udah bayar
+            $transaction->update(['status' => 1]);
+
+            //kalo gak ada error, commit perubahan
+            DB::commit();
+            return response()->json(['status' => 'success']);
+        }
+        catch(Exception $e){
+            return response()->json([
+                'status' => 'failed',
                 'data' => $e->getMessage()
             ]);
         }

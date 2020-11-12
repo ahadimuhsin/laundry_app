@@ -56,7 +56,7 @@ class OutletController extends Controller
             'name' => 'required|string|max:100',
             'address' => 'required|string',
             'phone' => 'required|max:13',
-            'status' =>'nullable|boolean'
+            'status' =>'nullable'
         ]);
         // echo($request->status);
         $outlet = Outlet::where('code', $id)->first();
@@ -67,6 +67,8 @@ class OutletController extends Controller
         else{
             $status = 0;
         }
+
+        echo('Status '.$status);
 
         $outlet->update([
             'name' => $request->name,

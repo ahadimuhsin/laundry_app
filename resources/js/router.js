@@ -42,6 +42,7 @@ import EditCustomer from './pages/customers/Edit.vue'
 //Transaksi
 import IndexTransaction from './pages/transactions/Index.vue'
 import AddTransaction from './pages/transactions/Add.vue'
+import ViewTransacation from './pages/transactions/View.vue'
 
 Vue.use(Router)
 
@@ -218,7 +219,13 @@ const router = new Router({
                     name: 'transactions.add',
                     component: AddTransaction,
                     meta: {title: 'Buat Transaksi Baru'}
-                }
+                },
+                {
+                    path: 'view/:id',
+                    name: 'transactions.view',
+                    component: ViewTransacation,
+                    meta: { title: 'View Transaction '}
+                },
             ]
 
         },
