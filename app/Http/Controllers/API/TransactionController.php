@@ -10,10 +10,42 @@ use App\Transaction;
 use Exception;
 use Illuminate\Support\Carbon;
 use App\Payment;
+use App\Http\Resources\TransactionCollection;
 
 class TransactionController extends Controller
 {
     //
+    public function index()
+    {
+        $search = request()->q; //keyword pencarian
+        $user = request()->user(); //ambil user yang sedang login
+
+        //whereHas digunakan untuk memfilter nama customer yang dicari user,
+        //tetapi nama tersebut berada pada tabel customer
+        //parameter pertama dari where Has adalah nama relasi yang didefinisikan
+        //di dalam model
+        $transaction = Transaction::with(['user', 'detail', 'customer'])
+        ->orderBy('created_at', 'desc')->whereHas('customer', function($q) use($search){
+            $q->where('name', 'LIKE', '%'.$search.'%');
+        });
+
+        //jika filternya adalah 0 dan 1, dimana 0 = proses, 1 = selesai dan 2 = semua data
+        if(in_array(request()->status, [0,1])){
+            //ambil data berdasarkan status tersebut
+            $transaction = $transaction->where('status', request()->status);
+        }
+
+        //jika rolenya bukan superadmin
+        if($user->role != 0){
+            //user hanya kana mendapatkan transaksi miliknya saja
+            $transaction =$transaction->where('user_id', $user->id);
+        }
+
+        $transaction = $transaction->paginate(10);
+
+        return new TransactionCollection($transaction);
+    }
+
     public function store(Request $request){
         $this->validate($request, [
             'customer_id' => 'required',
@@ -120,20 +152,38 @@ class TransactionController extends Controller
 
             //set defaul kembalian = 0
             $customer_change = 0;
-            if($request->customer_change){
-                //jika customer change bernilai true
-                $customer_change = $request->amount - $transaction->amount; //hitung berapa kembaliannya
 
-                //tambahkan ke deposit customer
-                $transaction->customer()->update(['deposit' => $transaction->customer->deposit + $customer_change]);
+            //lakukan pengecekan, jika via_deposit true
+            if($request->via_deposit){
+                //cek lagi, jika deposit customer kurang dari total tagihna
+                if($transaction->customer->deposit < $request->amount){
+                    //kirim pembayaran tidak bisa dilanjutkan
+                    return response()->json([
+                        'status' => 'error',
+                        'data' => 'Deposit tidak cukup'
+                    ]);
+                }
+                //selain itu, perbarui deposit customer
+                $transaction->customer()->update(['deposit' => $transaction->customer->deposit - $request->amount]);
             }
+            //jika bayar via cash
+            else{
+                if($request->customer_change){
+                    //jika customer change bernilai true
+                    $customer_change = $request->amount - $transaction->amount; //hitung berapa kembaliannya
+
+                    //tambahkan ke deposit customer
+                    $transaction->customer()->update(['deposit' => $transaction->customer->deposit + $customer_change]);
+                }
+            }
+
 
             //simpan info pembayaran
             Payment::create([
                 'transaction_id' => $transaction->id,
                 'amount' => $request->amount,
                 'customer_change' => $customer_change,
-                'type' => false
+                'type' => $request->via_deposit
             ]);
             //update status transaski jadi 1, artinya udah bayar
             $transaction->update(['status' => 1]);

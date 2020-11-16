@@ -11,6 +11,10 @@
                             <label for="">Tagihan</label>
                             <input type="text" :value="transaction.amount" class="form-control" readonly>
                         </div>
+                        <!-- Bayar Via deposit -->
+                        <div class="form-group" v-if="transaction.customer && transaction.customer.deposit >= transaction.amount">
+                            <input type="checkbox" v-model="via_deposit"> Bayar Via Deposit?
+                        </div>
                         <div class="form-group">
                             <label for="">Jumlah Bayar</label>
                             <input type="number" class="form-control" v-model="amount">
@@ -149,7 +153,22 @@ export default {
             customer_change: null,
             loading: false,
             payment_message: null,
-            payment_success: false
+            payment_success: false,
+            via_deposit: false
+        }
+    },
+    watch: {
+        //jika valuenya berubah
+        via_deposit(){
+            //jika via deposit true
+            if(this.via_deposit){
+                //total pembayaran diset sejumlah tagihan
+                this.amount = this.transaction.amount
+            }
+            else{
+                //jika false, set null
+                this.amount = null
+            }
         }
     },
     computed: {
@@ -159,11 +178,20 @@ export default {
         }),
         //memeriksa apakah user punya kembalian
         isCustomerChange(){
-            return this.amount > this.transaction.amount
+            //jika via deposit true
+            if(!this.via_deposit){
+                return this.amount > this.transaction.amount
+            }
+            return false
+
         },
         //menghitung selisih tagihan dan jumlah yang dibayar
         customerChangeAmount(){
-            return parseInt(this.amount - this.transaction.amount)
+            //jika via deposit true
+            if(!this.via_deposit){
+                return parseInt(this.amount - this.transaction.amount)
+            }
+            return 0
         }
     },
     methods: {
@@ -183,9 +211,12 @@ export default {
                 //kirimkan parameter berikut
                 transaction_id: this.$route.params.id,
                 amount: this.amount,
-                customer_change: this.customer_change
-            }).then(() => {
-                //set bahwa payment berhasil
+                customer_change: this.customer_change,
+                via_deposit: this.via_deposit
+            }).then((res) => {
+                if(res.status == 'success')
+                {
+                    //set bahwa payment berhasil
                 this.payment_success = true
                 setTimeout(() => {
                     //set loading jadi false kembali
@@ -193,10 +224,17 @@ export default {
                     //set semua variabel jadi kosong
                     this.amount = null,
                     this.customer_change = false,
-                    this.payment_message = null
-                }, 3000)
+                    this.payment_message = null,
+                    this.via_deposit = false
+                }, 1000)
                 //ambil data transaksi terbaru
                 this.detailTransaction(this.$route.params.id)
+                }
+                else{
+                    this.loading = false
+                    alert(res.data)
+                }
+
             })
         },
         //ketika tombol masing2 pesanan diklik

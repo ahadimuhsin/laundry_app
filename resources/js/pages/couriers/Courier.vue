@@ -19,9 +19,9 @@
                         <img :src="'/storage/couriers/' + row.item.photo" :width="80" :height="50" :alt="row.item.name">
                     </template>
 
-                    <!-- <template v-slot:cell(outlet_id)="row">
+                    <template v-slot:cell(outlet)="row">
                         {{ row.item.outlet.name }}
-                    </template> -->
+                    </template>
 
                     <!-- Menampilkan kolom aksi -->
                     <template v-slot:cell(actions)="row">
@@ -72,7 +72,7 @@ export default {
                 {key: 'photo', label: '#'},
                 {key: 'name', label: 'Nama Lengkap'},
                 {key: 'email', label: 'Email'},
-                {key: 'outlet_id', label: 'Outlet'},
+                {key: 'outlet.name', label: 'Outlet'},
                 {key: 'actions', label: 'Aksi'}
             ],
             search: ''

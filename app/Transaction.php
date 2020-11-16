@@ -9,6 +9,23 @@ class Transaction extends Model
     //
     protected $guarded = [];
 
+    protected $appends = ['status_label'];
+
+    public function getStatusLabelAttribute(){
+        //jika statusnya 1
+        if($this->status == 1){
+            //maka valuenya adalah html yang berisi label success
+            return '<span class="label label-success">Selesai</span>';
+        }
+        //selain itu menampilkan label primary
+        return '<span class="label label-primary">Proses</span>';
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function detail()
     {
         //relasi one to many, artinya 1 transaksi punya banyak detail

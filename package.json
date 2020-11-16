@@ -22,10 +22,12 @@
     "dependencies": {
         "bootstrap": "^4.5.2",
         "bootstrap-vue": "^2.17.3",
+        "chart.js": "^2.9.4",
         "laravel-echo": "^1.9.0",
         "moment": "^2.29.1",
         "pusher-js": "^7.0.0",
         "vue": "^2.6.12",
+        "vue-chartjs": "^3.5.1",
         "vue-input-only-number": "^1.1.0",
         "vue-router": "^3.4.6",
         "vue-select": "^3.10.8",
