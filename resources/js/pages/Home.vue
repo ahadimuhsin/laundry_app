@@ -2,8 +2,7 @@
     <div class="container">
         <section class="content-header">
             <h1>
-                Top Navigation
-                <small>Contoh</small>
+                Dashboard
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i>Home </a> </li>
@@ -52,7 +51,7 @@
                                 <!-- Tombol untuk Export Data ke Excel -->
                                 <div class="col-md-2">
                                     <button class="btn btn-primary btn-sm pull-right"
-                                    @click="exportData"><i class="fa fa-file-excel"></i></button>
+                                    @click="exportData">Export  </button>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +73,6 @@ import moment from 'moment'
 import _ from 'lodash'
 import LineChart from '../components/LineChart.vue'
 import {mapActions, mapState} from 'vuex'
-import func from '../../../vue-temp/vue-editor-bridge'
 export default {
     created(){
         this.getChartData({
@@ -113,9 +111,10 @@ export default {
         ...mapState('dashboard', {
             transactions: state => state.transactions //ambil data dari state transaction
         }),
+        ...mapState(['token']),
         //list tahun dari 2010 sampai sekarang, untuk dilooping di filter tag
         years(){
-            return _.range(2010, moment.add(1, 'years').format('Y'))
+            return _.range(2010, moment().add(1, 'years').format('Y'))
         },
         //data label yang diterima dari server
         labels(){
@@ -136,12 +135,11 @@ export default {
     methods: {
         ...mapActions('dashboard', ['getChartData']),
         exportData(){
-
+            window.open(`api/export?api_token=${this.token}&month=${this.month}&year=${this.year}`)
         }
     },
     components: {
         'line-chart' : LineChart
     }
-
 }
 </script>

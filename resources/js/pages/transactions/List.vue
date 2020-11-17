@@ -36,7 +36,7 @@
                         <p>{{row.item.user ? row.item.user.name: ''}}</p>
                     </template>
                     <template v-slot:cell(service)="row">
-                        <p>{{row.item.detail.length}}</p>
+                        <p class="text-center">{{row.item.detail.length}}</p>
                     </template>
                     <template v-slot:cell(amount)="row">
                         <p>{{row.item.amount}}</p>
@@ -91,7 +91,7 @@ export default {
                 {key: 'id', label: 'Order ID'},
                 {key: 'customer', label: 'Customer'},
                 {key: 'user_id', label: 'Admin'},
-                {key: 'service', label: 'Item Jasa'},
+                {key: 'service', label: 'Jumlah Item'},
                 {key: 'amount', label: 'Total'},
                 {key: 'created_at', label: 'Tanggal Transaksi'},
                 {key: 'status', label: 'Status'},

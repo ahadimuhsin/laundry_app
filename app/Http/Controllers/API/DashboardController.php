@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Exports\TransactionExport;
 use App\Http\Controllers\Controller;
 use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
@@ -50,5 +52,12 @@ class DashboardController extends Controller
             ];
         }
         return $data;
+    }
+
+    public function exportData(Request $request)
+    {
+        $transaction = $this->chart(); //ambil dari fungsi chart karena querynya sama
+
+        return Excel::download(new TransactionExport($transaction, request()->month, request()->year), 'transaction.xlsx');
     }
 }

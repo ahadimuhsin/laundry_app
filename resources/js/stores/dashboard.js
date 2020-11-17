@@ -1,6 +1,6 @@
 import $axios from '../api'
 
-const state = () = ({
+const state = () => ({
     transactions: [] //menampung data transaksi
 })
 

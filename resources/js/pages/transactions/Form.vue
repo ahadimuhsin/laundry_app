@@ -7,7 +7,7 @@
 
                 <!-- Akan menggunakan v-select di mana datanya akan diload
                 ketika keyword pencarian ditemukan -->
-                <v-select :option="customers.data"
+                <v-select :options="customers.data"
                     v-model="transactions.customer_id"
                     @search="onSearch"
                     label="name"

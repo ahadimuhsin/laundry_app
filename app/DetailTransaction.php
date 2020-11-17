@@ -14,7 +14,7 @@ class DetailTransaction extends Model
 
     //buat atribut untuk service time
     public function getServiceTimeAttribute(){
-        return $this->start_date->format('d-m-Y H:i:s'). 's/d'. $this->end_date->format('d-m-Y H:i:s');
+        return $this->start_date->format('d-m-Y H:i:s'). ' s/d '. $this->end_date->format('d-m-Y H:i:s');
     }
 
     //atirbut untuk label status

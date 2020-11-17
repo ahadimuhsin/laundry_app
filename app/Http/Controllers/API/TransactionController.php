@@ -123,7 +123,7 @@ class TransactionController extends Controller
     {
         //validasi untuk memeriksa idnya ada atau tidak
         $this->validate($request, [
-            'id' => 'required|exists:detail_transaction,id'
+            'id' => 'required|exists:detail_transactions,id'
         ]);
 
         //load data detail transaksi berdasarkan ID

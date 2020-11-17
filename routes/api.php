@@ -61,4 +61,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     //Dashboard/Line
     Route::get('chart', 'API\DashboardController@chart');
+
+    //Export Excel
+    Route::get('export', 'API\DashboardController@exportData');
 });
