@@ -7,7 +7,13 @@
         </div>
         <div class="form-group" :class="{'has-error': errors.price}">
             <label for="">Biaya</label>
-            <input type="text" class="form-control" v-model="expenses.price">
+            <input type="text" class="form-control" v-model="expenses.price" v-currency="{
+                locale: 'id-ID',
+                currency: null,
+                precision: 0,
+                valueAsInteger: true,
+                allowNegative: false
+                }">
             <p class="text-danger" v-if="errors.price">{{errors.price[0]}}</p>
         </div>
         <div class="form-group" :class="{'has-error': errors.note}">

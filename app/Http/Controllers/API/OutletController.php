@@ -28,7 +28,7 @@ class OutletController extends Controller
             'code' => 'required|unique:outlets,code',
             'name' => 'required|string|max:100',
             'address' => 'required|string',
-            'phone' => 'required|max:13',
+            'phone' => 'required|max:20',
             'status' => 'nullable|integer'
         ]);
 
@@ -55,7 +55,7 @@ class OutletController extends Controller
 //            'code' => 'required|unique:outlets,code',
             'name' => 'required|string|max:100',
             'address' => 'required|string',
-            'phone' => 'required|max:13',
+            'phone' => 'required|max:20',
             'status' =>'nullable'
         ]);
         // echo($request->status);

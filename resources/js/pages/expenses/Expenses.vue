@@ -13,6 +13,9 @@
             <div class="panel-body">
                 <!-- Menampilkan data expenses dalam bentuk tabel -->
                 <b-table striped hover bordered :items="expenses.data" :fields="fields" show-empty>
+                    <template v-slot:cell(price)="row">
+                        Rp {{ row.item.price | toCurrency }}
+                    </template>
                     <template v-slot:cell(status)="row">
                         <span class="label label-success" v-if="row.item.status ==1">Diterima</span>
                         <span class="label label-warning" v-else-if="row.item.status ==0">Diproses</span>
@@ -124,6 +127,15 @@ export default {
             })
         }
 
+    },
+    filters: {
+        toCurrency(value){
+
+            var reverse = value.toString().split('').reverse().join(''),
+            ribuan = reverse.match(/\d{1,3}/g);
+            ribuan = ribuan.join('.').split('').reverse().join('');
+            return ribuan;
+        }
     }
 }
 </script>

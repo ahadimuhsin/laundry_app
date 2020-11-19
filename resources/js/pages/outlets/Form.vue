@@ -18,7 +18,7 @@
         </div>
         <div class="form-group" :class="{'has-error' : errors.phone}">
             <label for="phone">Nomor Telepon</label>
-            <input type="text" name="phone" id="phone" class="form-control" v-model="outlet.phone">
+            <input type="text" name="phone" id="phone" class="form-control" v-model="outlet.phone" v-mask="'+62############'" placeholder="Dimulai dari +62">
             <p class="text-danger" v-if="errors.phone">{{errors.phone[0]}}</p>
         </div>
         <div class="form-group">

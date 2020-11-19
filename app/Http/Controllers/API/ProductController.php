@@ -54,11 +54,15 @@ class ProductController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:100',
             'unit_type' => 'required',
-            'price' => 'required|integer',
+            'price' => 'required',
             'laundry_type' => 'required',
             'service' => 'required|integer',
             'service_type' => 'required'
         ]);
+
+        $price = $request->price;
+        $price = str_replace(".","",$price);
+        $price = (int)$price;
 
         try{
             //simpan data product ke dalam tabel laundry_prices
@@ -66,7 +70,7 @@ class ProductController extends Controller
                 'name' => $request->name,
                 'unit_type' => $request->unit_type,
                 'laundry_type_id' => $request->laundry_type,
-                'price' => $request->price,
+                'price' => $price,
                 'user_id' => auth()->user()->id,
                 'service' => $request->service,
                 'service_type' => $request->service_type
@@ -94,7 +98,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:100',
             'unit_type' => 'required',
-            'price' => 'required|integer',
+            'price' => 'required',
             'laundry_type' => 'required',
             'service' => 'required|integer',
             'service_type' => 'required'
@@ -102,12 +106,16 @@ class ProductController extends Controller
 
         $laundry = LaundryPrice::findOrFail($id);
 
+        $price = $request->price;
+        $price = str_replace(".","",$price);
+        $price = (int)$price;
+
         //update
         $laundry->update([
             'name' => $request->name,
             'unit_type' => $request->unit_type,
             'laundry_type_id' => $request->laundry_type,
-            'price' => $request->price,
+            'price' => $price,
             'service' => $request->service,
             'service_type' => $request->service_type
         ]);

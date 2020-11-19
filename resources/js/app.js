@@ -15,10 +15,17 @@ import Permissions from './mixins/permission.js'
 //onlyInt
 import onlyInt from 'vue-input-only-number'
 
+//masking
+import VueTheMask from 'vue-the-mask'
+
+//currency input
+import VueCurrencyInput from 'vue-currency-input'
 
 Vue.use(VueSweetalert2)
 Vue.use(BootstrapVue)
 Vue.use(onlyInt)
+Vue.use(VueTheMask)
+Vue.use(VueCurrencyInput)
 Vue.mixin(Permissions)
 
 import { mapActions, mapGetters, mapState } from 'vuex'

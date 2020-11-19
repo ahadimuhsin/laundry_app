@@ -16,6 +16,9 @@
                     <template v-slot:cell(laundry_type)="row">
                         {{row.item.type.name}}
                     </template>
+                    <template v-slot:cell(price)="row">
+                        {{row.item.price | toCurrency}}
+                    </template>
                     <template v-slot:cell(user_id)="row">
                         {{row.item.user.name}}
                     </template>
@@ -124,6 +127,19 @@ export default {
                     this.removeProduct(id)
                 }
             })
+        }
+    },
+    filters: {
+        toCurrency(value){
+            if (typeof value !== "number"){
+                return value;
+            }
+            let formatter = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(value);
+            return formatter;
         }
     }
 }

@@ -28,10 +28,12 @@
         "pusher-js": "^7.0.0",
         "vue": "^2.6.12",
         "vue-chartjs": "^3.5.1",
+        "vue-currency-input": "^1.22.3",
         "vue-input-only-number": "^1.1.0",
         "vue-router": "^3.4.6",
         "vue-select": "^3.10.8",
         "vue-sweetalert2": "^3.0.8",
+        "vue-the-mask": "^0.11.1",
         "vuex": "^3.5.1"
     }
 }

@@ -39,7 +39,10 @@
                         <p class="text-center">{{row.item.detail.length}}</p>
                     </template>
                     <template v-slot:cell(amount)="row">
-                        <p>{{row.item.amount}}</p>
+                        <p>{{row.item.amount | toCurrency}}</p>
+                    </template>
+                    <template v-slot:cell(created_at)="row">
+                        <p>{{row.item.created_at | formattedDate}}</p>
                     </template>
                     <template v-slot:cell(status)="row">
                         <p v-html="row.item.status_label"></p>
@@ -76,6 +79,9 @@
 
 <script>
 import {mapActions, mapState} from 'vuex'
+import moment from 'moment'
+import 'moment/locale/id'
+moment.locale('id')
 export default {
     name: 'DataTransaction',
     created(){
@@ -146,6 +152,24 @@ export default {
     },
     methods: {
         ...mapActions('transaction', ['getTransactions'])
+    },
+    filters: {
+        toCurrency(value){
+            if (typeof value !== "number"){
+                return value;
+            }
+            let formatter = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(value);
+            return formatter;
+        },
+        formattedDate(value){
+            if(value){
+                return moment(String(value)).format('DD MMMM YYYY HH:MM:ss  ')
+            }
+        }
     }
 }
 </script>

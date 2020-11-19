@@ -37,7 +37,7 @@ class ExpensesController extends Controller
         //validasi data
         $this->validate($request, [
             'description' => 'required|string|max:150',
-            'price' => 'required|integer',
+            'price' => 'required',
             'note' => 'nullable|string'
         ]);
 
@@ -48,9 +48,14 @@ class ExpensesController extends Controller
         //selain itu, harus menunggu persetujuan
         $status = $user->role == 0 || $user->role == 2 ? 1:0;
 
+        $price = $request->price;
+        $price = str_replace(".","",$price);
+        $price = (int)$price;
+
         $request->request->add([
             'user_id' => $user->id,
-            'status' => $status
+            'status' => $status,
+            'price' => $price
         ]);
 
         //buat data baru expenses
@@ -109,12 +114,20 @@ class ExpensesController extends Controller
     {
         $this->validate($request, [
             'description' => 'required|string|max:150',
-            'price' => 'required|integer',
+            'price' => 'required',
             'note' => 'nullable|string'
         ]);
 
         $expenses = Expense::findOrFail($id);
-        $expenses->update($request->except('id'));
+        $price = $request->price;
+        $price = str_replace(".","",$price);
+        $price = (int)$price;
+
+        $expenses->update([
+            'description' => $request->description,
+            'price' => $price,
+            'note' => $request->note
+        ]);
 
         return response()->json([
             'status' => 'succes'

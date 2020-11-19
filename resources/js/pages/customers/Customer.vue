@@ -14,7 +14,7 @@
                 <!-- Tabel -->
                 <b-table striped hover bordered :items="customers.data" :fields="fields" show-empty>
                     <template v-slot:cell(deposit)="row">
-                        Rp {{ row.item.deposit }}
+                        {{ row.item.deposit | toCurrency}}
                     </template>
 
                     <!-- Nama Kurir ditampilkan jika ada -->
@@ -122,6 +122,19 @@ export default {
                 this.removeCustomer(id)
                 }
             })
+        }
+    },
+    filters: {
+        toCurrency(value){
+            if (typeof value !== "number"){
+                return value;
+            }
+            let formatter = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(value);
+            return formatter;
         }
     }
 }
